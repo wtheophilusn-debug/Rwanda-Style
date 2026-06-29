@@ -31,7 +31,7 @@ export default function Navbar() {
             {user.role === 'admin' && (
               <Link to="/admin" title="Dashboard"><LayoutDashboard size={20} /></Link>
             )}
-            <Link to="/profile" title="Profile"><User size={20} /></Link>
+            <Link to="/dashboard" title="My Dashboard"><User size={20} /></Link>
             <button onClick={handleLogout} title="Logout"><LogOut size={20} /></button>
           </>
         ) : (
