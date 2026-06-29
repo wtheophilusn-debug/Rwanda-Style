@@ -21,7 +21,8 @@ app.use('/api/wishlist',   require('./routes/wishlist'));
 app.get('/', (req, res) => res.json({ message: 'Rwanda Style API running' }));
 
 app.use((err, req, res, next) => {
-  console.error(err.message);
+  console.error('ERROR:', err.message);
+  console.error(err.stack);
   res.status(500).json({ message: err.message || 'Server error' });
 });
 
