@@ -1,8 +1,9 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { Search, Heart, ShoppingCart, User, Moon, Sun, Globe, Menu, X, ChevronDown } from 'lucide-react';
 import { useAuth } from '../../context/AuthContext';
 import { useCart } from '../../context/CartContext';
+import api from '../../utils/api';
 
 const categories = ['Fashion & Clothing', 'Accessories', 'Home & Living', 'Food & Beverages', 'Arts & Crafts'];
 
@@ -16,6 +17,11 @@ export default function Navbar() {
   const [mobileOpen, setMobileOpen] = useState(false);
   const [catOpen, setCatOpen] = useState(false);
   const [userOpen, setUserOpen] = useState(false);
+  const [categories, setCategories] = useState([]);
+
+  useEffect(() => {
+    api.get('/categories').then(({ data }) => setCategories(data));
+  }, []);
 
   const handleSearch = (e) => {
     e.preventDefault();
@@ -160,10 +166,10 @@ export default function Navbar() {
             {catOpen && (
               <div className="absolute top-full left-0 w-52 bg-white rounded-xl shadow-lg border py-2 z-50">
                 {categories.map(cat => (
-                  <Link key={cat} to={`/products?search=${encodeURIComponent(cat)}`}
+                  <Link key={cat._id} to={`/products?category=${cat._id}`}
                     onClick={() => setCatOpen(false)}
                     className="block px-4 py-2 text-sm text-gray-700 hover:bg-green-50 hover:text-green-700">
-                    {cat}
+                    {cat.name}
                   </Link>
                 ))}
               </div>
@@ -204,9 +210,9 @@ export default function Navbar() {
             </Link>
           ))}
           {categories.map(cat => (
-            <Link key={cat} to={`/products?search=${encodeURIComponent(cat)}`} onClick={() => setMobileOpen(false)}
+            <Link key={cat._id} to={`/products?category=${cat._id}`} onClick={() => setMobileOpen(false)}
               className="block px-3 py-2 text-sm text-gray-500 hover:text-green-700 hover:bg-green-50 rounded-lg pl-6">
-              — {cat}
+              — {cat.name}
             </Link>
           ))}
         </div>
