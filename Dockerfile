@@ -2,14 +2,16 @@ FROM node:22-alpine
 
 WORKDIR /app
 
+# Install server dependencies
 COPY server/package*.json ./server/
 RUN cd server && npm install
 
-COPY client/package*.json ./client/
+# Copy and build client
+COPY client/ ./client/
 RUN cd client && npm install && npm run build
 
+# Copy server source
 COPY server ./server
-COPY client ./client
 
 EXPOSE 5000
 
