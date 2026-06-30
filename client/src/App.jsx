@@ -6,6 +6,7 @@ import Navbar from './components/layout/Navbar';
 import Footer from './components/layout/Footer';
 import ProtectedRoute from './components/ui/ProtectedRoute';
 import DashboardLayout from './components/dashboard/DashboardLayout';
+import AdminLayout from './components/admin/AdminLayout';
 
 import Home            from './pages/Home';
 import Products        from './pages/Products';
@@ -17,10 +18,13 @@ import Register        from './pages/Register';
 import Orders          from './pages/Orders';
 import Profile         from './pages/Profile';
 
-import AdminDashboard    from './pages/admin/Dashboard';
+import AdminOverview     from './pages/admin/AdminOverview';
 import AdminProducts     from './pages/admin/AdminProducts';
 import AdminOrders       from './pages/admin/AdminOrders';
 import AdminCategories   from './pages/admin/AdminCategories';
+import AdminCustomers    from './pages/admin/AdminCustomers';
+import AdminAnalytics    from './pages/admin/AdminAnalytics';
+import AdminSettings     from './pages/admin/AdminSettings';
 
 import Overview          from './pages/dashboard/Overview';
 import DashboardOrders   from './pages/dashboard/DashboardOrders';
@@ -61,13 +65,18 @@ export default function App() {
             <Route path="/orders" element={<PublicLayout><ProtectedRoute><Orders /></ProtectedRoute></PublicLayout>} />
             <Route path="/profile" element={<PublicLayout><ProtectedRoute><Profile /></ProtectedRoute></PublicLayout>} />
 
-            {/* Admin routes */}
-            <Route path="/admin" element={<PublicLayout><ProtectedRoute adminOnly><AdminDashboard /></ProtectedRoute></PublicLayout>} />
-            <Route path="/admin/products" element={<PublicLayout><ProtectedRoute adminOnly><AdminProducts /></ProtectedRoute></PublicLayout>} />
-            <Route path="/admin/orders" element={<PublicLayout><ProtectedRoute adminOnly><AdminOrders /></ProtectedRoute></PublicLayout>} />
-            <Route path="/admin/categories" element={<PublicLayout><ProtectedRoute adminOnly><AdminCategories /></ProtectedRoute></PublicLayout>} />
+            {/* Admin Dashboard */}
+            <Route path="/admin" element={<ProtectedRoute adminOnly><AdminLayout /></ProtectedRoute>}>
+              <Route index element={<AdminOverview />} />
+              <Route path="products" element={<AdminProducts />} />
+              <Route path="orders" element={<AdminOrders />} />
+              <Route path="categories" element={<AdminCategories />} />
+              <Route path="customers" element={<AdminCustomers />} />
+              <Route path="analytics" element={<AdminAnalytics />} />
+              <Route path="settings" element={<AdminSettings />} />
+            </Route>
 
-            {/* Customer Dashboard routes */}
+            {/* Customer Dashboard */}
             <Route path="/dashboard" element={<ProtectedRoute><DashboardLayout /></ProtectedRoute>}>
               <Route index element={<Overview />} />
               <Route path="orders" element={<DashboardOrders />} />
