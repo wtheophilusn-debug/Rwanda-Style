@@ -4,8 +4,8 @@ Modern E-Commerce Marketplace — EWA408510 Final Project
 
 ## Live Links
 
-- Frontend: (Vercel URL — add after deployment)
-- Backend API: (Render URL — add after deployment)
+- Frontend: https://rwanda-style-p4aqpqjzj-youngdevsofficialcom.vercel.app
+- Backend API: https://rwanda-style.onrender.com
 
 ## Tech Stack
 
