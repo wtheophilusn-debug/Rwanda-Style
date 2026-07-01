@@ -16,7 +16,7 @@ import Checkout        from './pages/Checkout';
 import Login           from './pages/Login';
 import Register        from './pages/Register';
 import Orders          from './pages/Orders';
-import Profile         from './pages/Profile';
+import Contact from './pages/Contact';
 
 import AdminOverview     from './pages/admin/AdminOverview';
 import AdminProducts     from './pages/admin/AdminProducts';
@@ -63,6 +63,7 @@ export default function App() {
             <Route path="/register" element={<PublicLayout><Register /></PublicLayout>} />
             <Route path="/checkout" element={<PublicLayout><ProtectedRoute><Checkout /></ProtectedRoute></PublicLayout>} />
             <Route path="/orders" element={<PublicLayout><ProtectedRoute><Orders /></ProtectedRoute></PublicLayout>} />
+            <Route path="/contact" element={<PublicLayout><Contact /></PublicLayout>} />
             <Route path="/profile" element={<PublicLayout><ProtectedRoute><Profile /></ProtectedRoute></PublicLayout>} />
 
             {/* Admin Dashboard */}

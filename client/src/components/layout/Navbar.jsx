@@ -182,7 +182,7 @@ export default function Navbar() {
           <Link to="/products?sort=price_asc" className="px-4 py-3 text-sm font-medium text-gray-700 hover:text-green-700 hover:bg-green-50 transition">
             Deals
           </Link>
-          <Link to="/products" className="px-4 py-3 text-sm font-medium text-gray-700 hover:text-green-700 hover:bg-green-50 transition">
+          <Link to="/contact" className="px-4 py-3 text-sm font-medium text-gray-700 hover:text-green-700 hover:bg-green-50 transition">
             Contact
           </Link>
 
