@@ -40,8 +40,8 @@ export default function DashboardSidebar({ open, onClose }) {
 
         {/* User info */}
         <div className="px-6 py-4 border-b bg-green-50">
-          <div className="w-12 h-12 rounded-full bg-green-700 text-white flex items-center justify-center text-lg font-bold mb-2">
-            {user?.name?.charAt(0).toUpperCase()}
+          <div className="w-12 h-12 rounded-full bg-green-700 text-white flex items-center justify-center text-lg font-bold mb-2 overflow-hidden">
+            {user?.avatar ? <img src={user.avatar} alt="avatar" className="w-full h-full object-cover" /> : user?.name?.charAt(0).toUpperCase()}
           </div>
           <p className="font-semibold text-gray-800 text-sm truncate">{user?.name}</p>
           <p className="text-xs text-gray-500 truncate">{user?.email}</p>

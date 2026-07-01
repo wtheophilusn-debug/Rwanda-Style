@@ -96,8 +96,8 @@ export default function Navbar() {
             <div className="relative">
               <button onClick={() => setUserOpen(!userOpen)}
                 className="flex items-center gap-1.5 pl-1 pr-2 py-1 rounded-lg hover:bg-gray-100 transition">
-                <div className="w-7 h-7 rounded-full bg-green-700 text-white flex items-center justify-center text-xs font-bold">
-                  {user.name?.charAt(0).toUpperCase()}
+                <div className="w-7 h-7 rounded-full bg-green-700 text-white flex items-center justify-center text-xs font-bold overflow-hidden">
+                  {user?.avatar ? <img src={user.avatar} alt="avatar" className="w-full h-full object-cover" /> : user?.name?.charAt(0).toUpperCase()}
                 </div>
                 <span className="text-sm font-medium text-gray-700 hidden sm:block">{user.name?.split(' ')[0]}</span>
                 <ChevronDown size={13} className="text-gray-400" />

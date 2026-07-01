@@ -6,7 +6,7 @@ import api from '../../utils/api';
 import toast from 'react-hot-toast';
 
 export default function AdminSettings() {
-  const { user } = useAuth();
+  const { user, updateUser } = useAuth();
   const [tab, setTab] = useState('profile');
   const [preview, setPreview] = useState(user?.avatar || null);
   const [profile, setProfile] = useState({ name: user?.name || '', phone: user?.phone || '' });
@@ -24,9 +24,8 @@ export default function AdminSettings() {
     try {
       const { data } = await api.put('/auth/profile/avatar', fd);
       toast.success('Profile photo updated');
-      const stored = JSON.parse(localStorage.getItem('user') || '{}');
-      stored.avatar = data.avatar;
-      localStorage.setItem('user', JSON.stringify(stored));
+      updateUser({ avatar: data.avatar });
+      setPreview(data.avatar);
     } catch {
       toast.error('Failed to upload photo');
     }

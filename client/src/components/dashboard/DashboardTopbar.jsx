@@ -42,8 +42,8 @@ export default function DashboardTopbar({ onMenuClick, title }) {
         <div className="relative">
           <button onClick={() => setDropdownOpen(!dropdownOpen)}
             className="flex items-center gap-2 hover:bg-gray-100 rounded-full pl-1 pr-3 py-1 transition">
-            <div className="w-8 h-8 rounded-full bg-green-700 text-white flex items-center justify-center text-sm font-bold">
-              {user?.name?.charAt(0).toUpperCase()}
+            <div className="w-8 h-8 rounded-full bg-green-700 text-white flex items-center justify-center text-sm font-bold overflow-hidden">
+              {user?.avatar ? <img src={user.avatar} alt="avatar" className="w-full h-full object-cover" /> : user?.name?.charAt(0).toUpperCase()}
             </div>
             <span className="text-sm font-medium text-gray-700 hidden sm:block">{user?.name?.split(' ')[0]}</span>
             <ChevronDown size={14} className="text-gray-400" />

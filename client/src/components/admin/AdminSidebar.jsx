@@ -38,8 +38,8 @@ export default function AdminSidebar({ open, onClose }) {
         {/* Admin info */}
         <div className="px-6 py-4 border-b border-gray-700">
           <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-xl bg-green-600 flex items-center justify-center text-white font-bold">
-              {user?.name?.charAt(0).toUpperCase()}
+            <div className="w-10 h-10 rounded-xl bg-green-600 flex items-center justify-center text-white font-bold overflow-hidden">
+              {user?.avatar ? <img src={user.avatar} alt="avatar" className="w-full h-full object-cover" /> : user?.name?.charAt(0).toUpperCase()}
             </div>
             <div>
               <p className="text-sm font-semibold text-white">{user?.name}</p>
