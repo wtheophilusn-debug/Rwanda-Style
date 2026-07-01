@@ -32,10 +32,11 @@ export default function Contact() {
               <h3 className="font-bold text-gray-800 text-lg mb-5">Get In Touch</h3>
               <div className="space-y-4">
                 {[
-                  { icon: MapPin, label: 'Address', value: 'KG 123 St, Kigali Heights\nKigali, Rwanda' },
-                  { icon: Phone, label: 'Phone', value: '+250 780 000 000\n+250 730 000 000' },
-                  { icon: Mail, label: 'Email', value: 'info@rwandastyle.com\nsupport@rwandastyle.com' },
-                  { icon: Clock, label: 'Working Hours', value: 'Mon – Fri: 8:00 AM – 6:00 PM\nSat: 9:00 AM – 4:00 PM' },
+                  { icon: MapPin, label: 'Address', value: 'Nyanza, Kigali
+Rwanda' },
+                  { icon: Phone, label: 'Phone', value: '+250 794 750 391' },
+                  { icon: Mail, label: 'Email', value: 'stylerwanda984@gmail.com' },
+                  { icon: Clock, label: 'Working Hours', value: 'Open 24 Hours / 7 Days a Week' },
                 ].map(({ icon: Icon, label, value }) => (
                   <div key={label} className="flex gap-4">
                     <div className="w-10 h-10 bg-green-50 rounded-xl flex items-center justify-center flex-shrink-0">
@@ -55,13 +56,13 @@ export default function Contact() {
               <h3 className="font-bold text-gray-800 mb-4">Follow Us</h3>
               <div className="flex gap-3">
                 {[
-                  { icon: Facebook, color: 'bg-blue-600', label: 'Facebook' },
-                  { icon: Twitter, color: 'bg-sky-500', label: 'Twitter' },
-                  { icon: Instagram, color: 'bg-pink-500', label: 'Instagram' },
-                ].map(({ icon: Icon, color, label }) => (
-                  <button key={label} className={`${color} text-white w-10 h-10 rounded-xl flex items-center justify-center hover:opacity-80 transition`}>
+                  { icon: Facebook, color: 'bg-blue-600', label: 'Facebook', url: 'https://www.facebook.com/share/1FpQeiktvA/?mibextid=wwXIfr' },
+                  { icon: Twitter, color: 'bg-sky-500', label: 'Twitter', url: 'https://x.com/Theophilus21989' },
+                  { icon: Instagram, color: 'bg-pink-500', label: 'Instagram', url: 'https://www.instagram.com/amb_theophilus_wherd_aigar2002?igsh=MWdkN2Y4bHp3dmI1MQ==' },
+                ].map(({ icon: Icon, color, label, url }) => (
+                  <a key={label} href={url} target="_blank" rel="noreferrer" className={`${color} text-white w-10 h-10 rounded-xl flex items-center justify-center hover:opacity-80 transition`}>
                     <Icon size={18} />
-                  </button>
+                  </a>
                 ))}
               </div>
             </div>
@@ -110,8 +111,8 @@ export default function Contact() {
           <div className="bg-gray-100 h-64 flex items-center justify-center">
             <div className="text-center text-gray-400">
               <MapPin size={40} className="mx-auto mb-2 text-green-700" />
-              <p className="font-medium text-gray-600">Rwanda Style Headquarters</p>
-              <p className="text-sm">KG 123 St, Kigali Heights, Kigali, Rwanda</p>
+              <p className="font-medium text-gray-600">Rwanda Style — Nyanza, Kigali</p>
+              <p className="text-sm">Nyanza, Kigali, Rwanda</p>
             </div>
           </div>
         </div>
