@@ -39,10 +39,24 @@ const updateProfile = async (req, res) => {
     user.phone = req.body.phone || user.phone;
     if (req.body.password) user.password = req.body.password;
     await user.save();
-    res.json({ _id: user._id, name: user.name, email: user.email, role: user.role });
+    res.json({ _id: user._id, name: user.name, email: user.email, role: user.role, phone: user.phone, avatar: user.avatar });
   } catch (err) {
     res.status(500).json({ message: err.message });
   }
 };
 
-module.exports = { register, login, getProfile, updateProfile };
+const updateAvatar = async (req, res) => {
+  try {
+    if (!req.file) return res.status(400).json({ message: 'No image provided' });
+    const uploadToCloudinary = require('../utils/uploadToCloudinary');
+    const url = await uploadToCloudinary(req.file.buffer, 'rwanda-style/avatars');
+    const user = await User.findById(req.user._id);
+    user.avatar = url;
+    await user.save();
+    res.json({ avatar: url });
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+};
+
+module.exports = { register, login, getProfile, updateProfile, updateAvatar };

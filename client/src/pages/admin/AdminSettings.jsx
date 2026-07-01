@@ -1,6 +1,6 @@
-import { useState } from 'react';
+import { useState, useRef } from 'react';
 import { Link } from 'react-router-dom';
-import { Save, Eye, EyeOff } from 'lucide-react';
+import { Save, Eye, EyeOff, Camera } from 'lucide-react';
 import { useAuth } from '../../context/AuthContext';
 import api from '../../utils/api';
 import toast from 'react-hot-toast';
@@ -8,10 +8,29 @@ import toast from 'react-hot-toast';
 export default function AdminSettings() {
   const { user } = useAuth();
   const [tab, setTab] = useState('profile');
+  const [preview, setPreview] = useState(user?.avatar || null);
   const [profile, setProfile] = useState({ name: user?.name || '', phone: user?.phone || '' });
   const [passwords, setPasswords] = useState({ new: '', confirm: '' });
   const [showPass, setShowPass] = useState({ new: false, confirm: false });
   const [saving, setSaving] = useState(false);
+  const fileRef = useRef();
+
+  const handleAvatar = async (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
+    setPreview(URL.createObjectURL(file));
+    const fd = new FormData();
+    fd.append('avatar', file);
+    try {
+      const { data } = await api.put('/auth/profile/avatar', fd);
+      toast.success('Profile photo updated');
+      const stored = JSON.parse(localStorage.getItem('user') || '{}');
+      stored.avatar = data.avatar;
+      localStorage.setItem('user', JSON.stringify(stored));
+    } catch {
+      toast.error('Failed to upload photo');
+    }
+  };
 
   const handleProfileSave = async (e) => {
     e.preventDefault(); setSaving(true);
@@ -36,8 +55,15 @@ export default function AdminSettings() {
 
       {/* Admin Card */}
       <div className="bg-gray-900 rounded-2xl p-6 text-white flex items-center gap-4">
-        <div className="w-16 h-16 rounded-2xl bg-green-600 flex items-center justify-center text-2xl font-bold">
-          {user?.name?.charAt(0).toUpperCase()}
+        <div className="relative">
+          <div className="w-16 h-16 rounded-2xl bg-green-600 flex items-center justify-center text-2xl font-bold overflow-hidden">
+            {preview ? <img src={preview} alt="avatar" className="w-full h-full object-cover" /> : user?.name?.charAt(0).toUpperCase()}
+          </div>
+          <button onClick={() => fileRef.current.click()}
+            className="absolute -bottom-1 -right-1 w-6 h-6 bg-green-500 rounded-full flex items-center justify-center shadow hover:bg-green-400">
+            <Camera size={12} className="text-white" />
+          </button>
+          <input ref={fileRef} type="file" accept="image/*" onChange={handleAvatar} className="hidden" />
         </div>
         <div>
           <h3 className="text-xl font-bold">{user?.name}</h3>

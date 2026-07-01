@@ -8,8 +8,7 @@ import toast from 'react-hot-toast';
 export default function AccountSettings() {
   const { user } = useAuth();
   const [tab, setTab] = useState('profile');
-  const [avatar, setAvatar] = useState(null);
-  const [preview, setPreview] = useState(null);
+  const [preview, setPreview] = useState(user?.avatar || null);
   const [showPass, setShowPass] = useState({ current: false, new: false, confirm: false });
   const fileRef = useRef();
 
@@ -17,11 +16,21 @@ export default function AccountSettings() {
   const [passwords, setPasswords] = useState({ current: '', new: '', confirm: '' });
   const [saving, setSaving] = useState(false);
 
-  const handleAvatar = (e) => {
+  const handleAvatar = async (e) => {
     const file = e.target.files[0];
     if (!file) return;
-    setAvatar(file);
     setPreview(URL.createObjectURL(file));
+    const fd = new FormData();
+    fd.append('avatar', file);
+    try {
+      const { data } = await api.put('/auth/profile/avatar', fd);
+      toast.success('Profile photo updated');
+      const stored = JSON.parse(localStorage.getItem('user') || '{}');
+      stored.avatar = data.avatar;
+      localStorage.setItem('user', JSON.stringify(stored));
+    } catch {
+      toast.error('Failed to upload photo');
+    }
   };
 
   const handleProfileSave = async (e) => {
