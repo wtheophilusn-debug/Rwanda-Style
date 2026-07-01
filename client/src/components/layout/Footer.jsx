@@ -25,7 +25,7 @@ export default function Footer() {
               className="w-9 h-9 bg-sky-500 rounded-lg flex items-center justify-center hover:opacity-80 transition">
               <Twitter size={16} className="text-white" />
             </a>
-            <a href="https://www.instagram.com/amb_theophilus_wherd_aigar2002?igsh=MWdkN2Y4bHp3dmI1MQ==" target="_blank" rel="noreferrer"
+            <a href="https://www.instagram.com/amb_theophilus_wherd_aigar2002" target="_blank" rel="noreferrer"
               className="w-9 h-9 bg-pink-500 rounded-lg flex items-center justify-center hover:opacity-80 transition">
               <Instagram size={16} className="text-white" />
             </a>

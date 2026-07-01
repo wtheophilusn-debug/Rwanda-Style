@@ -32,8 +32,7 @@ export default function Contact() {
               <h3 className="font-bold text-gray-800 text-lg mb-5">Get In Touch</h3>
               <div className="space-y-4">
                 {[
-                  { icon: MapPin, label: 'Address', value: 'Nyanza, Kigali
-Rwanda' },
+                  { icon: MapPin, label: 'Address', value: 'Nyanza, Kigali, Rwanda' },
                   { icon: Phone, label: 'Phone', value: '+250 794 750 391' },
                   { icon: Mail, label: 'Email', value: 'stylerwanda984@gmail.com' },
                   { icon: Clock, label: 'Working Hours', value: 'Open 24 Hours / 7 Days a Week' },
@@ -58,7 +57,7 @@ Rwanda' },
                 {[
                   { icon: Facebook, color: 'bg-blue-600', label: 'Facebook', url: 'https://www.facebook.com/share/1FpQeiktvA/?mibextid=wwXIfr' },
                   { icon: Twitter, color: 'bg-sky-500', label: 'Twitter', url: 'https://x.com/Theophilus21989' },
-                  { icon: Instagram, color: 'bg-pink-500', label: 'Instagram', url: 'https://www.instagram.com/amb_theophilus_wherd_aigar2002?igsh=MWdkN2Y4bHp3dmI1MQ==' },
+                  { icon: Instagram, color: 'bg-pink-500', label: 'Instagram', url: 'https://www.instagram.com/amb_theophilus_wherd_aigar2002' },
                 ].map(({ icon: Icon, color, label, url }) => (
                   <a key={label} href={url} target="_blank" rel="noreferrer" className={`${color} text-white w-10 h-10 rounded-xl flex items-center justify-center hover:opacity-80 transition`}>
                     <Icon size={18} />
