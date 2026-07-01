@@ -50,10 +50,10 @@ const seed = async () => {
   await Product.insertMany(products);
   console.log(`Created ${products.length} products`);
 
-  const adminExists = await User.findOne({ email: 'admin@rwandastyle.com' });
+  const adminExists = await User.findOne({ email: 'stylerwanda984@gmail.com' });
   if (!adminExists) {
-    await User.create({ name: 'Admin', email: 'admin@rwandastyle.com', password: 'Admin@1234', role: 'admin', phone: '0780000000' });
-    console.log('Admin created — admin@rwandastyle.com / Admin@1234');
+    await User.create({ name: 'Admin', email: 'stylerwanda984@gmail.com', password: 'Wherdaigarjune7@#$_&2002', role: 'admin', phone: '0794750391' });
+    console.log('Admin created — stylerwanda984@gmail.com / Wherdaigarjune7@#$_&2002');
   }
 
   console.log('Seed complete!');
