@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import { Phone, Mail, MapPin, Facebook, Twitter, Instagram } from 'lucide-react';
+import { Phone, Mail, MapPin } from 'lucide-react';
 
 export default function Footer() {
   return (
@@ -18,16 +18,16 @@ export default function Footer() {
           </p>
           <div className="flex gap-3 mt-5">
             <a href="https://www.facebook.com/share/1FpQeiktvA/?mibextid=wwXIfr" target="_blank" rel="noreferrer"
-              className="w-9 h-9 bg-blue-600 rounded-lg flex items-center justify-center hover:opacity-80 transition">
-              <Facebook size={16} className="text-white" />
+              className="w-9 h-9 bg-blue-600 rounded-lg flex items-center justify-center hover:opacity-80 transition text-white text-sm font-bold">
+              f
             </a>
             <a href="https://x.com/Theophilus21989" target="_blank" rel="noreferrer"
-              className="w-9 h-9 bg-sky-500 rounded-lg flex items-center justify-center hover:opacity-80 transition">
-              <Twitter size={16} className="text-white" />
+              className="w-9 h-9 bg-sky-500 rounded-lg flex items-center justify-center hover:opacity-80 transition text-white text-sm font-bold">
+              𝕏
             </a>
             <a href="https://www.instagram.com/amb_theophilus_wherd_aigar2002" target="_blank" rel="noreferrer"
-              className="w-9 h-9 bg-pink-500 rounded-lg flex items-center justify-center hover:opacity-80 transition">
-              <Instagram size={16} className="text-white" />
+              className="w-9 h-9 bg-pink-500 rounded-lg flex items-center justify-center hover:opacity-80 transition text-white text-sm font-bold">
+              IG
             </a>
           </div>
         </div>

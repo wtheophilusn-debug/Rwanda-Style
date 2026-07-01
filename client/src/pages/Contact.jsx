@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { MapPin, Phone, Mail, Clock, Send, Facebook, Twitter, Instagram } from 'lucide-react';
+import { MapPin, Phone, Mail, Clock, Send } from 'lucide-react';
 import toast from 'react-hot-toast';
 
 export default function Contact() {
@@ -55,12 +55,12 @@ export default function Contact() {
               <h3 className="font-bold text-gray-800 mb-4">Follow Us</h3>
               <div className="flex gap-3">
                 {[
-                  { icon: Facebook, color: 'bg-blue-600', label: 'Facebook', url: 'https://www.facebook.com/share/1FpQeiktvA/?mibextid=wwXIfr' },
-                  { icon: Twitter, color: 'bg-sky-500', label: 'Twitter', url: 'https://x.com/Theophilus21989' },
-                  { icon: Instagram, color: 'bg-pink-500', label: 'Instagram', url: 'https://www.instagram.com/amb_theophilus_wherd_aigar2002' },
-                ].map(({ icon: Icon, color, label, url }) => (
-                  <a key={label} href={url} target="_blank" rel="noreferrer" className={`${color} text-white w-10 h-10 rounded-xl flex items-center justify-center hover:opacity-80 transition`}>
-                    <Icon size={18} />
+                  { label: 'Facebook', color: 'bg-blue-600', text: 'f', url: 'https://www.facebook.com/share/1FpQeiktvA/?mibextid=wwXIfr' },
+                  { label: 'Twitter', color: 'bg-sky-500', text: '𝕏', url: 'https://x.com/Theophilus21989' },
+                  { label: 'Instagram', color: 'bg-pink-500', text: 'IG', url: 'https://www.instagram.com/amb_theophilus_wherd_aigar2002' },
+                ].map(({ label, color, text, url }) => (
+                  <a key={label} href={url} target="_blank" rel="noreferrer" className={`${color} text-white w-10 h-10 rounded-xl flex items-center justify-center hover:opacity-80 transition text-sm font-bold`}>
+                    {text}
                   </a>
                 ))}
               </div>
