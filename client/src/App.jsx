@@ -16,7 +16,8 @@ import Checkout        from './pages/Checkout';
 import Login           from './pages/Login';
 import Register        from './pages/Register';
 import Orders          from './pages/Orders';
-import Contact from './pages/Contact';
+import Profile         from './pages/Profile';
+import Contact         from './pages/Contact';
 
 import AdminOverview     from './pages/admin/AdminOverview';
 import AdminProducts     from './pages/admin/AdminProducts';

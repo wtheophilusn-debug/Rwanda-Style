@@ -5,8 +5,6 @@ import { useAuth } from '../../context/AuthContext';
 import { useCart } from '../../context/CartContext';
 import api from '../../utils/api';
 
-const categories = ['Fashion & Clothing', 'Accessories', 'Home & Living', 'Food & Beverages', 'Arts & Crafts'];
-
 export default function Navbar() {
   const { user, logout } = useAuth();
   const { cart } = useCart();
