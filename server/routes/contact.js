@@ -1,16 +1,17 @@
 const router = require('express').Router();
-const { sendOTP } = require('../utils/emailService');
+const nodemailer = require('nodemailer');
+
+const transporter = nodemailer.createTransport({
+  service: 'gmail',
+  auth: { user: process.env.EMAIL_USER, pass: process.env.EMAIL_PASS },
+  pool: true,
+  maxConnections: 5,
+});
 
 router.post('/', async (req, res) => {
   try {
     const { name, email, subject, message } = req.body;
     if (!name || !email || !subject || !message) return res.status(400).json({ message: 'All fields are required' });
-
-    const nodemailer = require('nodemailer');
-    const transporter = nodemailer.createTransport({
-      service: 'gmail',
-      auth: { user: process.env.EMAIL_USER, pass: process.env.EMAIL_PASS },
-    });
 
     await transporter.sendMail({
       from: `"Rwanda Style Contact" <${process.env.EMAIL_USER}>`,
