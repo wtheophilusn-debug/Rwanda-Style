@@ -6,18 +6,20 @@ const AuthContext = createContext();
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(() => JSON.parse(localStorage.getItem('user') || 'null'));
 
-  const login = async (email, password) => {
-    const { data } = await api.post('/auth/login', { email, password });
+  const setUserFromData = (data) => {
     localStorage.setItem('token', data.token);
     localStorage.setItem('user', JSON.stringify(data));
     setUser(data);
   };
 
+  const login = async (email, password) => {
+    const { data } = await api.post('/auth/login', { email, password });
+    setUserFromData(data);
+  };
+
   const register = async (name, email, password, phone) => {
     const { data } = await api.post('/auth/register', { name, email, password, phone });
-    localStorage.setItem('token', data.token);
-    localStorage.setItem('user', JSON.stringify(data));
-    setUser(data);
+    setUserFromData(data);
   };
 
   const updateUser = (updates) => {
@@ -33,7 +35,7 @@ export const AuthProvider = ({ children }) => {
   };
 
   return (
-    <AuthContext.Provider value={{ user, login, register, logout, updateUser }}>
+    <AuthContext.Provider value={{ user, login, register, logout, updateUser, setUserFromData }}>
       {children}
     </AuthContext.Provider>
   );

@@ -8,6 +8,10 @@ const userSchema = new mongoose.Schema({
   role:     { type: String, enum: ['customer', 'admin'], default: 'customer' },
   phone:    { type: String },
   avatar:   { type: String },
+  verified: { type: Boolean, default: false },
+  otp:         { type: String },
+  otpExpiry:   { type: Date },
+  otpVerified: { type: Boolean, default: false },
 }, { timestamps: true });
 
 userSchema.pre('save', async function () {
