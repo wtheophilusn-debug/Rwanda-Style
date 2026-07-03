@@ -1,5 +1,7 @@
 import { useState } from 'react';
 import { MapPin, Phone, Mail, Clock, Send } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
+import api from '../utils/api';
 import toast from 'react-hot-toast';
 
 export default function Contact() {
@@ -9,10 +11,15 @@ export default function Contact() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setSending(true);
-    await new Promise(r => setTimeout(r, 1000));
-    toast.success('Message sent! We will get back to you soon.');
-    setForm({ name: '', email: '', subject: '', message: '' });
-    setSending(false);
+    try {
+      await api.post('/contact', form);
+      toast.success('Message sent! We will get back to you soon.');
+      setForm({ name: '', email: '', subject: '', message: '' });
+    } catch {
+      toast.error('Failed to send message. Please try again.');
+    } finally {
+      setSending(false);
+    }
   };
 
   return (

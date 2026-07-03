@@ -32,6 +32,7 @@ app.use('/api/products',   require('./routes/products'));
 app.use('/api/orders',     require('./routes/orders'));
 app.use('/api/categories', require('./routes/categories'));
 app.use('/api/wishlist',   require('./routes/wishlist'));
+app.use('/api/contact',    require('./routes/contact'));
 
 app.get('/', (req, res) => res.json({ message: 'Rwanda Style API running' }));
 
