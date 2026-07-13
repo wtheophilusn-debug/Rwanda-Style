@@ -37,7 +37,7 @@ Rules:
 - Format prices in RWF.
 - If asked something unrelated to shopping, politely redirect to shopping topics.`;
 
-    const model = genAI.getGenerativeModel({ model: 'gemini-1.5-flash' });
+    const model = genAI.getGenerativeModel({ model: 'gemini-2.0-flash' });
     const result = await model.generateContent(`${systemPrompt}\n\nCustomer: ${message}`);
     const reply = result.response.text();
 
