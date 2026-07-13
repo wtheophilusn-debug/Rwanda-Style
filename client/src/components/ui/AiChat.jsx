@@ -24,8 +24,9 @@ export default function AiChat() {
     try {
       const { data } = await api.post('/ai/chat', { message: msg });
       setMessages(prev => [...prev, { role: 'ai', text: data.reply }]);
-    } catch {
-      setMessages(prev => [...prev, { role: 'ai', text: 'Sorry, I\'m having trouble connecting. Please try again.' }]);
+    } catch (err) {
+      const msg = err.response?.data?.message || err.message || 'Unknown error';
+      setMessages(prev => [...prev, { role: 'ai', text: `Error: ${msg}` }]);
     } finally {
       setLoading(false);
     }
