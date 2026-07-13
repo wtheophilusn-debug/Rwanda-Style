@@ -1,3 +1,4 @@
+const fetch = require('node-fetch');
 const Product = require('../models/Product');
 const Order = require('../models/Order');
 
