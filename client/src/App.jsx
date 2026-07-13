@@ -3,6 +3,8 @@ import { Toaster } from 'react-hot-toast';
 import { AuthProvider } from './context/AuthContext';
 import { CartProvider } from './context/CartContext';
 import { WishlistProvider } from './context/WishlistContext';
+import { ThemeProvider } from './context/ThemeContext';
+import { LangProvider } from './context/LangContext';
 import Navbar from './components/layout/Navbar';
 import Footer from './components/layout/Footer';
 import ProtectedRoute from './components/ui/ProtectedRoute';
@@ -53,6 +55,8 @@ function PublicLayout({ children }) {
 export default function App() {
   return (
     <BrowserRouter>
+      <ThemeProvider>
+      <LangProvider>
       <AuthProvider>
         <CartProvider>
           <WishlistProvider>
@@ -99,6 +103,8 @@ export default function App() {
           </WishlistProvider>
         </CartProvider>
       </AuthProvider>
+      </LangProvider>
+      </ThemeProvider>
     </BrowserRouter>
   );
 }
