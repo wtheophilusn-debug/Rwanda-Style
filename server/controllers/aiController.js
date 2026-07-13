@@ -54,14 +54,14 @@ Rules:
 
     if (!response.ok) {
       console.error('Groq API error:', JSON.stringify(data));
-      return res.status(500).json({ message: 'AI service unavailable' });
+      return res.status(500).json({ message: data?.error?.message || 'AI service unavailable' });
     }
 
     const reply = data.choices?.[0]?.message?.content || 'Sorry, I could not generate a response.';
     res.json({ reply });
   } catch (err) {
     console.error('AI chat error:', err.message);
-    res.status(500).json({ message: 'AI service unavailable' });
+    res.status(500).json({ message: err.message || 'AI service unavailable' });
   }
 };
 
