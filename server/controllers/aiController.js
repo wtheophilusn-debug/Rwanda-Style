@@ -1,15 +1,11 @@
-const { GoogleGenerativeAI } = require('@google/generative-ai');
 const Product = require('../models/Product');
 const Order = require('../models/Order');
-
-const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
 
 const chat = async (req, res) => {
   try {
     const { message } = req.body;
     if (!message) return res.status(400).json({ message: 'Message is required' });
 
-    // Fetch context from DB
     const [products, orders] = await Promise.all([
       Product.find().populate('category', 'name').select('name price category stock description').limit(50).lean(),
       req.user ? Order.find({ user: req.user._id }).select('status total createdAt').sort({ createdAt: -1 }).limit(10).lean() : Promise.resolve([]),
@@ -37,10 +33,30 @@ Rules:
 - Format prices in RWF.
 - If asked something unrelated to shopping, politely redirect to shopping topics.`;
 
-    const model = genAI.getGenerativeModel({ model: 'gemini-2.0-flash' });
-    const result = await model.generateContent(`${systemPrompt}\n\nCustomer: ${message}`);
-    const reply = result.response.text();
+    const response = await fetch('https://api.groq.com/openai/v1/chat/completions', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${process.env.GROQ_API_KEY}`,
+      },
+      body: JSON.stringify({
+        model: 'llama3-8b-8192',
+        messages: [
+          { role: 'system', content: systemPrompt },
+          { role: 'user', content: message },
+        ],
+        max_tokens: 500,
+      }),
+    });
 
+    const data = await response.json();
+
+    if (!response.ok) {
+      console.error('Groq API error:', JSON.stringify(data));
+      return res.status(500).json({ message: 'AI service unavailable' });
+    }
+
+    const reply = data.choices?.[0]?.message?.content || 'Sorry, I could not generate a response.';
     res.json({ reply });
   } catch (err) {
     console.error('AI chat error:', err.message);
