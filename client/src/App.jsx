@@ -2,9 +2,11 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { Toaster } from 'react-hot-toast';
 import { AuthProvider } from './context/AuthContext';
 import { CartProvider } from './context/CartContext';
+import { WishlistProvider } from './context/WishlistContext';
 import Navbar from './components/layout/Navbar';
 import Footer from './components/layout/Footer';
 import ProtectedRoute from './components/ui/ProtectedRoute';
+import AiChat from './components/ui/AiChat';
 import DashboardLayout from './components/dashboard/DashboardLayout';
 import AdminLayout from './components/admin/AdminLayout';
 
@@ -53,7 +55,9 @@ export default function App() {
     <BrowserRouter>
       <AuthProvider>
         <CartProvider>
+          <WishlistProvider>
           <Toaster position="top-right" />
+          <AiChat />
           <Routes>
             {/* Public routes */}
             <Route path="/" element={<PublicLayout><Home /></PublicLayout>} />
@@ -92,6 +96,7 @@ export default function App() {
               <Route path="settings" element={<AccountSettings />} />
             </Route>
           </Routes>
+          </WishlistProvider>
         </CartProvider>
       </AuthProvider>
     </BrowserRouter>

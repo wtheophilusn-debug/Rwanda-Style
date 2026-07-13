@@ -3,25 +3,35 @@ import { Link } from 'react-router-dom';
 import { Heart, ShoppingCart, Trash2 } from 'lucide-react';
 import api from '../../utils/api';
 import { useCart } from '../../context/CartContext';
+import { useWishlist } from '../../context/WishlistContext';
 import toast from 'react-hot-toast';
 
 export default function DashboardWishlist() {
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
   const { addToCart } = useCart();
+  const { toggle, reload } = useWishlist();
 
-  const load = () => api.get('/wishlist').then(({ data }) => setProducts(data.products || [])).finally(() => setLoading(false));
+  const load = () =>
+    api.get('/wishlist')
+      .then(({ data }) => setProducts(data.products || []))
+      .finally(() => setLoading(false));
+
   useEffect(() => { load(); }, []);
 
   const remove = async (productId) => {
-    await api.post(`/wishlist/${productId}`);
+    await toggle(productId);
     toast.success('Removed from wishlist');
-    load();
+    setProducts(prev => prev.filter(p => p._id !== productId));
   };
 
   const handleAddToCart = (product) => { addToCart(product); toast.success('Added to cart'); };
 
-  if (loading) return <div className="flex justify-center py-20"><div className="w-10 h-10 border-4 border-green-700 border-t-transparent rounded-full animate-spin"></div></div>;
+  if (loading) return (
+    <div className="flex justify-center py-20">
+      <div className="w-10 h-10 border-4 border-green-700 border-t-transparent rounded-full animate-spin"></div>
+    </div>
+  );
 
   return (
     <div className="space-y-6">
