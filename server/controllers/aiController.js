@@ -27,12 +27,24 @@ ${productList}
 
 ${req.user ? `Customer's recent orders:\n${orderList}` : ''}
 
+App pages and their routes:
+- Shop / Products: /products
+- Cart: /cart
+- My Orders: /dashboard/orders
+- Wishlist: /dashboard/wishlist
+- Dashboard: /dashboard
+- Login: /login
+- Register: /register
+- Contact: /contact
+
 Rules:
 - Answer only questions related to shopping, products, orders, or the Rwanda Style store.
 - Be friendly, concise, and helpful.
 - Recommend products from the list above when relevant.
 - Format prices in RWF.
-- If asked something unrelated to shopping, politely redirect to shopping topics.`;
+- If asked something unrelated to shopping, politely redirect to shopping topics.
+- If the user wants to navigate somewhere (e.g. "take me to shop", "go to cart", "show my orders"), end your reply with exactly this on a new line: NAVIGATE:/the-route
+- Only include one NAVIGATE: line per response, and only when navigation is clearly requested.`;
 
     const response = await fetch('https://api.groq.com/openai/v1/chat/completions', {
       method: 'POST',
@@ -58,7 +70,13 @@ Rules:
     }
 
     const reply = data.choices?.[0]?.message?.content || 'Sorry, I could not generate a response.';
-    res.json({ reply });
+
+    // Extract navigation route if AI included one
+    const navMatch = reply.match(/NAVIGATE:([\/\w-]+)/);
+    const navigate = navMatch ? navMatch[1] : null;
+    const cleanReply = reply.replace(/NAVIGATE:([\/\w-]+)/, '').trim();
+
+    res.json({ reply: cleanReply, navigate });
   } catch (err) {
     console.error('AI chat error:', err.message);
     res.status(500).json({ message: err.message || 'AI service unavailable' });

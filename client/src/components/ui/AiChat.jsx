@@ -1,4 +1,5 @@
 import { useState, useRef, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { MessageCircle, X, Send, Bot, User, Loader2 } from 'lucide-react';
 import api from '../../utils/api';
 
@@ -10,6 +11,7 @@ export default function AiChat() {
   const [input, setInput] = useState('');
   const [loading, setLoading] = useState(false);
   const bottomRef = useRef(null);
+  const navigate = useNavigate();
 
   useEffect(() => {
     bottomRef.current?.scrollIntoView({ behavior: 'smooth' });
@@ -24,6 +26,12 @@ export default function AiChat() {
     try {
       const { data } = await api.post('/ai/chat', { message: msg });
       setMessages(prev => [...prev, { role: 'ai', text: data.reply }]);
+      if (data.navigate) {
+        setTimeout(() => {
+          setOpen(false);
+          navigate(data.navigate);
+        }, 1200);
+      }
     } catch (err) {
       const msg = err.response?.data?.message || err.message || 'Unknown error';
       setMessages(prev => [...prev, { role: 'ai', text: `Error: ${msg}` }]);
