@@ -32,6 +32,15 @@ const getProfile = async (req, res) => {
   res.json(req.user);
 };
 
+const getAllUsers = async (req, res) => {
+  try {
+    const users = await User.find().select('-password').sort({ createdAt: -1 });
+    res.json(users);
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+};
+
 const updateProfile = async (req, res) => {
   try {
     const user = await User.findById(req.user._id);
@@ -59,4 +68,4 @@ const updateAvatar = async (req, res) => {
   }
 };
 
-module.exports = { register, login, getProfile, updateProfile, updateAvatar };
+module.exports = { register, login, getProfile, updateProfile, updateAvatar, getAllUsers };

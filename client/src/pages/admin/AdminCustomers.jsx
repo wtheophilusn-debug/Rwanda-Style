@@ -5,24 +5,21 @@ import api from '../../utils/api';
 
 export default function AdminCustomers() {
   const [customers, setCustomers] = useState([]);
-  const [orders, setOrders] = useState([]);
   const [search, setSearch] = useState('');
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    api.get('/orders').then(({ data }) => {
-      setOrders(data);
-      // Extract unique customers from orders
-      const map = {};
-      data.forEach(o => {
-        if (o.user) {
-          if (!map[o.user._id]) map[o.user._id] = { ...o.user, orders: 0, spent: 0 };
-          map[o.user._id].orders += 1;
-          map[o.user._id].spent += o.total;
-        }
-      });
-      setCustomers(Object.values(map));
-    }).finally(() => setLoading(false));
+    Promise.all([api.get('/auth/users'), api.get('/orders')])
+      .then(([usersRes, ordersRes]) => {
+        const orders = ordersRes.data;
+        const users = usersRes.data.filter(u => u.role !== 'admin');
+        const enriched = users.map(u => {
+          const userOrders = orders.filter(o => o.user?._id === u._id);
+          return { ...u, orders: userOrders.length, spent: userOrders.reduce((s, o) => s + o.total, 0) };
+        });
+        setCustomers(enriched);
+      })
+      .finally(() => setLoading(false));
   }, []);
 
   const filtered = customers.filter(c =>
@@ -57,7 +54,7 @@ export default function AdminCustomers() {
         ) : (
           <table className="w-full text-sm">
             <thead className="bg-gray-50 text-gray-500 text-xs uppercase">
-              <tr>{['Customer', 'Email', 'Orders', 'Total Spent', 'Role'].map(h => <th key={h} className="px-5 py-3 text-left">{h}</th>)}</tr>
+              <tr>{['Customer', 'Email', 'Orders', 'Total Spent', 'Joined'].map(h => <th key={h} className="px-5 py-3 text-left">{h}</th>)}</tr>
             </thead>
             <tbody className="divide-y divide-gray-100">
               {filtered.map(c => (
@@ -65,7 +62,7 @@ export default function AdminCustomers() {
                   <td className="px-5 py-4">
                     <div className="flex items-center gap-3">
                       <div className="w-9 h-9 rounded-full bg-green-100 text-green-700 flex items-center justify-center font-bold text-sm">
-                        {c.name?.charAt(0).toUpperCase()}
+                        {c.avatar ? <img src={c.avatar} alt="" className="w-full h-full rounded-full object-cover" /> : c.name?.charAt(0).toUpperCase()}
                       </div>
                       <span className="font-medium text-gray-800">{c.name}</span>
                     </div>
@@ -75,9 +72,7 @@ export default function AdminCustomers() {
                     <span className="bg-blue-100 text-blue-700 px-2 py-1 rounded-full text-xs font-semibold">{c.orders} orders</span>
                   </td>
                   <td className="px-5 py-4 font-semibold text-green-700">RWF {c.spent.toLocaleString()}</td>
-                  <td className="px-5 py-4">
-                    <span className="bg-gray-100 text-gray-600 px-2 py-1 rounded-full text-xs capitalize">{c.role || 'customer'}</span>
-                  </td>
+                  <td className="px-5 py-4 text-gray-400 text-xs">{new Date(c.createdAt).toLocaleDateString()}</td>
                 </tr>
               ))}
             </tbody>
