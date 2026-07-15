@@ -1,7 +1,7 @@
 # EWA408510 – E-Commerce and Web Application
 ## Final Project Report
 
-**Student Name:** Amb. Theophilus Nehemiah  
+**Student Name:** Amb. Theophilus Nehemiah Wherdaigar 
 **Course:** EWA408510 – E-Commerce and Web Application  
 **Instructor:** Eric Maniraguha  
 **Academic Year:** 2025–2026  
@@ -167,7 +167,26 @@ _id, user (ref), products: [ref → Product], updatedAt
 
 ## 8. Screenshots
 
-*[Insert screenshots here — Homepage, Products, Cart, Checkout, Admin Dashboard, Analytics, AI Chat, Dark Mode]*
+### Homepage
+![Homepage](../screenshots/HomePage.jpg)
+
+### Products Page
+![Products](../screenshots/Products.jpg)
+
+### Shopping Cart
+![Cart](../screenshots/Cart.jpg)
+
+### Checkout
+![Checkout](../screenshots/Checkout.jpg)
+
+### Admin Dashboard
+![Admin Dashboard](../screenshots/Admin%20Dashboard.jpg)
+
+### AI Chat Assistant
+![AI Chat](../screenshots/AI%20Chat.jpg)
+
+### Dark Mode
+![Dark Mode](../screenshots/Dark%20Mode.jpg)
 
 ---
 
@@ -225,7 +244,9 @@ A GitHub Actions CI/CD pipeline is configured at `.github/workflows/ci.yml`.
 5. Build frontend (`npm run build`)
 6. Run backend tests
 
-**Evidence:** *[Insert screenshot of successful GitHub Actions workflow run]*
+**Evidence:**
+
+![GitHub Actions Workflow](../screenshots/GitHub%20Actions%20workflow.jpg)
 
 The pipeline ensures that every code push is automatically built and validated before deployment, maintaining code quality and catching errors early.
 
@@ -248,7 +269,9 @@ Docker Compose defines two services:
 docker compose up --build
 ```
 
-**Evidence:** *[Insert screenshot of Docker running successfully]*
+**Evidence:**
+
+![Docker Compose Up](../screenshots/docker%20compose%20up%20--build%20output.jpg)
 
 Docker ensures the application runs consistently across any environment, eliminating "works on my machine" issues.
 
@@ -291,6 +314,6 @@ This project has strengthened my understanding of full-stack web development, RE
 
 ---
 
-*Submitted by: Amb. Theophilus Nehemiah*  
+*Submitted by: Amb. Theophilus Nehemiah Wherdaigar*  
 *EWA408510 — E-Commerce and Web Application*  
 *Academic Year 2025–2026*
