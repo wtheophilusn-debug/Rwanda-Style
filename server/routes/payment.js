@@ -1,43 +1,51 @@
 const express = require('express');
 const router = express.Router();
 const { protect } = require('../middleware/auth');
-const {
-  ApiError,
-  CheckoutPaymentIntent,
-  Client,
-  Environment,
-  LogLevel,
-  OrdersController,
-} = require('@paypal/paypal-server-sdk');
 
-const client = new Client({
-  clientCredentialsAuthCredentials: {
-    oAuthClientId: process.env.PAYPAL_CLIENT_ID,
-    oAuthClientSecret: process.env.PAYPAL_CLIENT_SECRET,
-  },
-  environment: process.env.PAYPAL_MODE === 'live' ? Environment.Production : Environment.Sandbox,
-  logging: { logLevel: LogLevel.Info, logRequest: false, logResponse: false },
-});
+const PAYPAL_API = process.env.PAYPAL_MODE === 'live'
+  ? 'https://api-m.paypal.com'
+  : 'https://api-m.sandbox.paypal.com';
 
-const ordersController = new OrdersController(client);
+async function getAccessToken() {
+  const credentials = Buffer.from(
+    `${process.env.PAYPAL_CLIENT_ID}:${process.env.PAYPAL_CLIENT_SECRET}`
+  ).toString('base64');
+
+  const res = await fetch(`${PAYPAL_API}/v1/oauth2/token`, {
+    method: 'POST',
+    headers: {
+      Authorization: `Basic ${credentials}`,
+      'Content-Type': 'application/x-www-form-urlencoded',
+    },
+    body: 'grant_type=client_credentials',
+  });
+  const data = await res.json();
+  return data.access_token;
+}
 
 // POST /api/payment/create-order
 router.post('/create-order', protect, async (req, res) => {
   try {
-    const { amount } = req.body; // amount in RWF
-    const usd = (amount / 1400).toFixed(2); // convert RWF to USD for PayPal
-    const { body } = await ordersController.ordersCreate({
-      body: {
-        intent: CheckoutPaymentIntent.Capture,
-        purchaseUnits: [{
-          amount: { currencyCode: 'USD', value: usd },
-          description: 'Rwanda Style Order',
-        }],
+    const { amount } = req.body;
+    const usd = (amount / 1400).toFixed(2);
+    const token = await getAccessToken();
+
+    const response = await fetch(`${PAYPAL_API}/v2/checkout/orders`, {
+      method: 'POST',
+      headers: {
+        Authorization: `Bearer ${token}`,
+        'Content-Type': 'application/json',
       },
+      body: JSON.stringify({
+        intent: 'CAPTURE',
+        purchase_units: [{ amount: { currency_code: 'USD', value: usd } }],
+      }),
     });
-    res.json({ id: body.id });
+
+    const data = await response.json();
+    if (!response.ok) return res.status(response.status).json({ message: data.message || 'PayPal error' });
+    res.json({ id: data.id });
   } catch (err) {
-    if (err instanceof ApiError) return res.status(err.statusCode).json({ message: err.message });
     res.status(500).json({ message: err.message });
   }
 });
@@ -46,10 +54,20 @@ router.post('/create-order', protect, async (req, res) => {
 router.post('/capture-order', protect, async (req, res) => {
   try {
     const { orderID } = req.body;
-    const { body } = await ordersController.ordersCapture({ id: orderID });
-    res.json(body);
+    const token = await getAccessToken();
+
+    const response = await fetch(`${PAYPAL_API}/v2/checkout/orders/${orderID}/capture`, {
+      method: 'POST',
+      headers: {
+        Authorization: `Bearer ${token}`,
+        'Content-Type': 'application/json',
+      },
+    });
+
+    const data = await response.json();
+    if (!response.ok) return res.status(response.status).json({ message: data.message || 'Capture failed' });
+    res.json(data);
   } catch (err) {
-    if (err instanceof ApiError) return res.status(err.statusCode).json({ message: err.message });
     res.status(500).json({ message: err.message });
   }
 });
