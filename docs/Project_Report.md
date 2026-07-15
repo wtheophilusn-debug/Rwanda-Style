@@ -238,7 +238,7 @@ A GitHub Actions CI/CD pipeline is configured at `.github/workflows/ci.yml`.
 
 **Pipeline Steps:**
 1. Checkout code from repository
-2. Setup Node.js v22
+2. Setup Node.js v24
 3. Install backend dependencies (`cd server && npm install`)
 4. Install frontend dependencies (`cd client && npm install`)
 5. Build frontend (`npm run build`)
